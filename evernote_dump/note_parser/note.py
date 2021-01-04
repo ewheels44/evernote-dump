@@ -19,7 +19,8 @@ class Note(object):
 
     MEDIA_PATH = "media/"
     ISO_DATE_FORMAT = "%Y%m%dT%H%M%SZ"
-    TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+    #TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+    TIME_FORMAT = "[[%B %-d, %Y]]"
 
     def __init__(self):
         self.html2text = html2text.HTML2Text()
@@ -158,19 +159,28 @@ class Note(object):
                     self._attachments[i].get_hash(), self.MEDIA_PATH, self._attachments[i].get_filename())
                 self._markdown += self._attachments[i].get_attributes()
 
+    def findsuffix(self, day):
+      #print(day)
+      suffix = ""
+      if 4 <= day <= 20 or 24 <= day <= 30:
+        suffix = "th"
+      else:
+        suffix = ["st", "nd", "rd"][day % 10 - 1]
+      return suffix
+
     def create_markdown_note_attr(self):
         self._markdown += "\n---"
         self._markdown += "\n### NOTE ATTRIBUTES"
-        self._markdown += "\n>Created Date: " + self._created_date.strftime(self.TIME_FORMAT) + "  "
-        self._markdown += "\n>Last Evernote Update Date: " + self._updated_date.strftime(self.TIME_FORMAT) + "  "
+        self._markdown += "\nCreated Date:: " + self._created_date.strftime("[[%B %-d" + self.findsuffix(self._created_date.day) + ", %Y]]") + "  "
+        self._markdown += "\nLast Evernote Update Date:: " + self._updated_date.strftime("[[%B %-d" + self.findsuffix(self._created_date.day) + ", %Y]]") + "  "
         if len(self._attributes) > 0:
             for attr in self._attributes:
-                self._markdown += "\n>%s: %s  " % (attr[0], attr[1])
+                self._markdown += "\n%s:: %s  " % (attr[0], attr[1])
 
     def create_markdown_note_tags(self):
         self._markdown += "\n\n---"
         self._markdown += "\n### TAGS\n"
-        tags = '  '.join(['{%s}' % tag for tag in self._tags])
+        tags = '  '.join(['[[%s]]' % tag for tag in self._tags])
         tags += "\n"
         self._markdown += tags
 
