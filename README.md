@@ -2,7 +2,7 @@
 
 **Evernote Dump** exports and extracts Evernote notes and attachments from .enex files.
 
-All notes and attachments will keep their original file created and accessed dates. Notes will be converted to markdown format. Tags and other embedded information will be formatted and added to the end of each note. Tags will become there own page in Roam, and embedded information will become attributes as well. Date attribute values follow Roam daily page snytax.    
+All notes and attachments will keep their original file created and accessed dates. Notes will be converted to markdown format. Tags and other embedded information will be formatted and added to the end of each note. **Tags will become there own page in Roam, and embedded information will become attributes as well. Date attribute values follow Roam daily page snytax.**    
 
 Evernote Dump works by streaming the .enex file through a parser so even extremely large .enex files _should_ work.
 
